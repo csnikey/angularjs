@@ -1,0 +1,106 @@
+<div>
+    <tabs>
+        <tab ng-repeat="tab in tabs" float="tab.float" tab-title="tab.title" url-type="tab.type"></tab>
+    </tabs>
+    <div class="mb2" ui-sref="question({type:7})">
+        <img src="img/banner_pay.jpg" width="100%">
+    </div>
+    <div>
+        <ul id="index_list">
+            <li class="tab-list relative" ng-repeat="item in data" render-finished id="{{item.question_id}}">
+                <!-- 付费病例 -->
+                <div class="tab-cont" ng-if="item.type==7">
+                    <div class="clearfix">
+                        <div class="p-logo fl" ng-click="goInfo(item.role_id,$event)">
+                            <a class="p-pic"><img lazy-src="{{item.m_members.headimg}}">
+                                <div class="v" ng-if="item.m_members.isrenzheng>0"><img lazy-src="img/v{{item.m_members.isrenzheng}}.png"></div>
+                            </a>
+                        </div>
+                        <div class="p-msg ml-10">
+                            <div style="overflow: hidden;">
+                                <div class="nickname fl">
+                                    <p class="nowrap">{{item.m_members.name}}</p>
+                                    <div class="color9">
+                                        {{item.create_time}}
+                                    </div>
+                                </div>
+
+                                <div class="fr">
+                                    <div class="open-pay">
+                                      {{isPay(userInfo.id,item.reward_user)?'已付费查看':'付费病例'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="f2 color9 fl">
+                                {{item.m_members.hospital}}&nbsp; {{item.m_members.administrative}}&nbsp; {{item.m_members.zhicheng}}
+                            </p>
+                            <p class="f2 color-fa fr pay-num">
+                                已有{{+item.invite_count+item.reward_user.length}}人查看
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                    ng-click="goDetail(item.question_id,item.m_members.id,userInfo.id,item.pay_issue_isopen,item.type)">
+                        <p class="f3 color-3d mt2">
+                            <span>主题:</span>
+                            <span ng-bind-html="item.question | br"></span>
+                        </p>
+                        <div class="photo">
+                            <a ng-repeat="pic in item.pic_log" ng-if="$index<3"><img lazy-src="{{pic.site}}{{imgSmall}}"></a>
+                            <div class="photo-num" ng-show="item.pic_log.length>3">{{item.pic_log.length}}P</div>
+                        </div>
+                        <p class="pt1">
+                            <span>内容:</span>
+                            <span ng-bind-html="item.description | br"></span>
+                        </p>
+                        <div class="pt1 color9 clearfix" ng-repeat="ext in item.question_exts">
+                            <div class="fl ext" ng-switch="ext.type">
+                                <span ng-switch-when="0">普通补充{{ext.pic_status-1}}</span>
+                                <span ng-switch-when="1">随访补充{{ext.pic_status-1}}</span>
+                                <span ng-switch-when="2">病理补充{{ext.pic_status-1}}</span>
+                                <span ng-switch-when="3">确诊补充{{ext.pic_status-1}}</span>
+                            </div>
+                            <div class="ext-cont">
+                                <div class="ext-cont-item" ng-show="ext.description!=''">
+                                    <img class="ext-pic" src="img/ext_txt.png">
+                                    <span ng-bind-html="ext.description | br"></span>
+                                </div>
+                                <div class="ext-cont-item" ng-repeat="extpic in item.pic_exts" ng-if="extpic.idx==ext.pic_status-1">
+                                    <img class="ext-pic" src="img/ext_pic.png">
+                                    <span>{{extpic.create_time}}新增{{extpic.count}}张图片</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tips">
+                            <span class="tip-red" ng-if="item.is_urgent==1">
+                                急诊
+                            </span>
+                            <span class="tip" ng-repeat="tag in item.tag_class">{{tag.title}}</span>
+                        </div>
+                    </div>
+                    <ul class="util clearfix">
+                        <li>
+                            <a class="br" ng-click="fenxiang($event)">
+                                <img src="img/fenxiang.png">
+                                <span>{{item.goods}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-click="goDetail(item.question_id,item.m_members.id,userInfo.id,item.pay_issue_isopen,item.type)" class="br">
+                                <img src="img/talk.png">
+                                <span>{{item.answer_num}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <collect uid="item.question_id" iscollect="item.current_user_is_collect" num="item.shoucang_num"></collect>
+                        </li>
+                    </ul>
+                </div>
+                <!--/ 付费病例 -->
+            </li>
+        </ul>
+    </div>
+    <div class="next pda" ng-if="data.length>=20">
+        <div class="next-btn" ng-click="getMore(type)">点击加载更多</div>
+    </div>
+</div>

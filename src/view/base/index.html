@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.5.0/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+		<title>ng的示例项目</title>
+	</head>
+	<body>
+		<!--直接执行控制器-->
+		<div id="" ng-app="app" ng-controller="personCtrl">
+			<ul ng-repeat="item in items">
+				<li>{{item}}</li>
+			</ul>
+		</div>
+		
+		
+	</body>
+	<!--需要同名-->
+	<script src="personCtrl.js"></script>
+	
+</html>

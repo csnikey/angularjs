@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+rate_web
+active_web
+/muke/
+/index.html
+/.idea
+js/main/
+css/main/
+pages
+npm-debug.log

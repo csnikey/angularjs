@@ -1,0 +1,67 @@
+<div>
+    <div class="pb2">
+        <div class="clearfix bg-w pb2">
+            <a class=" del-a fl pt1" ng-click="vm.del()"><img src="img/del.png" class="del-img"></a>
+            <input class="search-input" type="text" ng-model="vm.keywords" placeholder="{{vm.placeholder}}">
+            <a class="btn-search fr" ng-click="vm.search(vm.keywords)">搜索</a>
+        </div>
+        <div id="content" class="bg-w mt1">
+            <div class="pda bb" ng-if="vm.case.length>0">
+              病例搜索结果
+            </div>
+            <ul id="index_list">
+                <li class="tab-list" ng-repeat="item in vm.case">
+                    <div class="pda" ng-click="goDetail(item.question_id,item.m_members.id,userInfo.id,item.pay_issue_isopen,item.type)">
+                        <div class="clearfix">
+                            <a class="p-pic fl pt1" ng-click="goInfo(item.member.id,$event)"><img lazy-src="{{item.member.headimg}}">
+                                <div class="v" ng-if="item.authen>0"><img lazy-src="img/v{{item.member.authen}}.png"></div>
+                            </a>
+                            <div class="nickname ml-10 pt1">
+                                <p>{{item.member.name}} &nbsp; <span class="f2 color9 fr">{{item.create_time}}</span></p>
+                                <p class="search-content f5 fw color-3d" ng-bind-html="item.search_content "></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="pb2 pr2 tr" ng-if="vm.case.length>0&&vm.type==0" ng-click="vm.goMore(vm.keywords,'case')">
+              查看更多搜索结果>>
+            </div>
+        </div>
+        <div class="mt2 bg-w">
+          <div class="pda bb" ng-if="vm.user.length>0">
+            用户搜索结果
+          </div>
+            <ul id="index_list">
+                <li class="tab-list" ng-repeat="item in vm.user">
+                    <div class="pda">
+                        <div class="clearfix">
+                            <a class="p-pic fl pt1" ng-click="goInfo(item.id,$event)"><img lazy-src="{{item.headimg}}">
+                                <div class="v" ng-if="item.isrenzheng>0"><img lazy-src="img/v{{item.isrenzheng}}.png"></div>
+                            </a>
+                            <div class="nickname ml-10 pt1">
+                                <p>{{item.true_name}}</p>
+                                <p class="f2 color9">{{item.hospital}}</p>
+                                <p class="search-content f5 fw color-3d" ng-bind-html="item.search_content "></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="pb2 pr2 tr" ng-if="vm.case.length>0&&vm.type==0" ng-click="vm.goMore(vm.keywords,'user')">
+              查看更多搜索结果>>
+            </div>
+        </div>
+        <div class="next pda" ng-if="vm.case.length>=20||vm.user.length>=20">
+            <div class="next-btn" ng-click="vm.getMore(vm.keywords,vm.type)">点击加载更多</div>
+        </div>
+    </div>
+    <div class="search-type tc mt2" ng-if="vm.case.length==0&&vm.user.length==0">
+      <p>搜索指定内容</p>
+      <div class="info-foc">
+          <a class="br color-fa" ng-click="vm.change('0')">按全部搜索</a>
+          <a class="br color-fa" ng-click="vm.change('case')">按病例搜索</a>
+          <a class="color-fa" ng-click="vm.change('user')">按人名搜索</a>
+      </div>
+    </div>
+</div>
