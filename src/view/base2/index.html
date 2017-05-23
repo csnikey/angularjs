@@ -11,8 +11,11 @@
 	</head>
 	<body>
 		<!--名称匹配控制器-->
-		<div id="" ng-app="app" ng-controller="indexCtrl" >
-			<ul ng-repeat="item in items">
+		<div id="" ng-app="app"  >
+			<ul ng-repeat="item in items" ng-controller="indexCtrl">
+				<li>{{item}}</li>
+			</ul>
+			<ul ng-repeat="item in items" ng-controller="baseCtrl">
 				<li>{{item}}</li>
 			</ul>
 		</div>

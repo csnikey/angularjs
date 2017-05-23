@@ -90,7 +90,7 @@ gulp.task('watch', function() {
 
 
 
-gulp.task('serve2', ['dev'],function() {
+gulp.task('serve2', function() {
 
   var options = {
         target: 'http://dev.kankanyisheng.com', // target host
@@ -109,8 +109,8 @@ gulp.task('serve2', ['dev'],function() {
         }
     });
 
-    gulp.watch(['src/action/**/*.js','src/style/*.css','src/action/view/**/*.html'],['dev']);
-    gulp.watch("./tpl/**/*.html").on("change", browserSync.reload);
+//  gulp.watch(['src/action/**/*.js','src/style/*.css','src/action/view/**/*.html'],['dev']);
+//  gulp.watch("./tpl/**/*.html").on("change", browserSync.reload);
 });
 
 gulp.task('serve', ['dev'],function() {
