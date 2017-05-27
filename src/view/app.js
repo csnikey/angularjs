@@ -21,3 +21,22 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
         controller: 'indexCtrl'
     })
 })
+
+
+
+$("#file").change(function(){
+	var filename=$(this).val();
+	console.log(filename);
+	
+	$.post("http://test.yilian.zhuojianchina.com/weixin/hocus.htm?action=uploadImg",{
+		picture:filename
+	},function(data){
+		console.log(data);
+	})
+	
+	
+	
+	
+})
+
+
