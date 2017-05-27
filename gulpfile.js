@@ -12,6 +12,11 @@ var proxyMiddleware = require('http-proxy-middleware');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
+gulp.task("clean",function(){
+	 return gulp.src(['./dist/css','./dist/js'])
+        .pipe(clean())
+})
+
 gulp.task('buildJs', function() {
     return gulp.src('src/**/*.js')
         .pipe(concat("main.js"))
@@ -34,7 +39,7 @@ gulp.task('buildCss', function() {
 })
 
 //把编译好的文件注入到页面
-gulp.task("inject",["buildCss","buildJs"],function(){
+gulp.task("build",["clean","buildCss","buildJs"],function(){
 	var target=gulp.src('./src/index.html');
 	var sources = gulp.src(['./dist/css/*.css','./dist/js/*.js'], {read: false});
 	return target.pipe(inject(sources,{ralative:true}))
@@ -42,8 +47,10 @@ gulp.task("inject",["buildCss","buildJs"],function(){
 		gulp.dest('./')
 	)
 })
+//默认的就是构建服务
+gulp.task('default', ['build']);
 //启动服务
-gulp.task("serve",["inject"],function(){
+gulp.task("serve",["build"],function(){
 
     browserSync.init({
         server: {
@@ -53,7 +60,7 @@ gulp.task("serve",["inject"],function(){
         }
     });
 
-    gulp.watch(['src/**/*.js','src/css/*.css','src/**/*.html'],['inject']);
+    gulp.watch(['src/**/*.js','src/css/*.css','src/**/*.html'],['build']);
     gulp.watch("src/**/*.html").on("change", browserSync.reload);
 })
 gulp.task('moveHtml',function(){
@@ -82,10 +89,7 @@ gulp.task('inject-dev', ['concatJs-dev', 'concatCss-dev','moveHtml'], function()
         .pipe(reload({stream:true}))
 })
 
-gulp.task('clean', function() {
-    return gulp.src(['./js/main','./css/main','./pages'])
-        .pipe(clean())
-})
+
 
 gulp.task('watch', function() {
     gulp.watch(['src/action/**/**/*.js','src/style/*.css'],['build'])
@@ -117,13 +121,11 @@ gulp.task('serve2', function() {
 });
 
 
-gulp.task('build',['clean'],function(){
-    gulp.start('inject')
-})
+
 gulp.task('dev',['clean'],function(){
     gulp.start('inject-dev')
 })
 
-gulp.task('default', ['build'])
+
 
 
