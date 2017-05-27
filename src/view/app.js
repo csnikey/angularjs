@@ -1,3 +1,18 @@
+//调整字号大小
+    (function() {
+        //根据屏幕device-width来调整根字体大小
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var html = document.documentElement;
+            var windowWidth = html.clientWidth;
+            if (windowWidth > 640) {
+                windowWidth = 640;
+            }
+            html.style.fontSize = windowWidth / 7.5 + 'px';
+        }, false);
+
+    })();
+
 var app = angular.module('app', ['ui.router', 'ngFileUpload', 'me-lazyload']);
 
 app.run(function($rootScope, $state, $stateParams, $location, $window, indexData) {
