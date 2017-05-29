@@ -157,3 +157,6 @@ app.service('hexafy', function() {
         return x.toString(16);
     }
 });
+
+
+冲突的处理
