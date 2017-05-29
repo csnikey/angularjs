@@ -12,7 +12,6 @@
         }, false);
 
     })();
-console.log(113);
 var app = angular.module('app', ['ui.router', 'ngFileUpload', 'me-lazyload']);
 
 app.run(function($rootScope, $state, $stateParams, $location, $window, indexData) {
