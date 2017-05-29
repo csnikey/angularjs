@@ -60,7 +60,10 @@ gulp.task("serve",["build"],function(){
         }
     });
 
-    gulp.watch(['src/**/*.js','src/css/*.css','src/**/*.html'],['build']);
+    gulp.watch(['src/**/*.js','src/css/*.css','src/**/*.html'],['build'],function(){
+    	
+    	browserSync.reload;
+    });
     gulp.watch("src/**/*.html").on("change", browserSync.reload);
 })
 gulp.task('moveHtml',function(){
