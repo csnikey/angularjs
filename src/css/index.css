@@ -11,3 +11,8 @@
     text-align: center;
     z-index: 99;
 }
+.m-botnav li{
+
+    width: 33.3%;
+    float: left;
+ }

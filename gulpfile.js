@@ -13,7 +13,7 @@ var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
 gulp.task("clean",function(){
-	 return gulp.src(['./dist/css','./dist/js'])
+	 return gulp.src(['./dist/css',"./dist/js"])
         .pipe(clean())
 })
 
@@ -44,7 +44,7 @@ gulp.task("build",["clean","buildCss","buildJs"],function(){
 	var sources = gulp.src(['./dist/css/*.css','./dist/js/*.js'], {read: false});
 	return target.pipe(inject(sources,{ralative:true}))
 	.pipe(
-		gulp.dest('./')
+		gulp.dest('./dist')
 	)
 })
 //默认的就是构建服务
@@ -55,16 +55,13 @@ gulp.task("serve",["build"],function(){
     browserSync.init({
         server: {
             baseDir: "./",
-            index: './index.html',
+            index: './dist/index.html',
 //			      middleware: middleware
         }
     });
 
-    gulp.watch(['src/**/*.js','src/css/*.css','src/**/*.html'],['build'],function(){
-    	
-    	browserSync.reload;
-    });
-    gulp.watch("src/**/*.html").on("change", browserSync.reload);
+    gulp.watch(['src/**/*.js','src/css/*.css',"src/**/*.html"],['build']);
+    gulp.watch("dist/index.html").on("change",browserSync.reload);
 })
 gulp.task('moveHtml',function(){
   return gulp.src('src/action/view/**/*.html')
