@@ -158,5 +158,3 @@ app.service('hexafy', function() {
     }
 });
 
-
-冲突的处理sf 
