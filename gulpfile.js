@@ -38,20 +38,24 @@ gulp.task('buildCss', function() {
         .pipe(gulp.dest('./dist/css'))
 })
 
+// 页面部分拷贝到生产目录
+gulp.task("buildHtml",function(){
+
+return gulp.src('./src/index.html').pipe(
+		gulp.dest('./dist'))
+})
 //把编译好的文件注入到页面
-gulp.task("build",["clean","buildCss","buildJs"],function(){
-	var target=gulp.src('./src/index.html');
+gulp.task("build",["clean","buildCss","buildJs","buildHtml"],function(){
+	var target=gulp.src('./dist/index.html');
 	var sources = gulp.src(['./dist/css/*.css','./dist/js/*.js'], {read: false});
 	return target.pipe(inject(sources,{ralative:true}))
-	.pipe(
-		gulp.dest('./dist')
-	)
+	
 })
 //默认的就是构建服务
 gulp.task('default', ['build']);
 //启动服务
 gulp.task("serve",["build"],function(){
-
+// 启动服务
     browserSync.init({
         server: {
             baseDir: "./",
@@ -59,8 +63,8 @@ gulp.task("serve",["build"],function(){
 //			      middleware: middleware
         }
     });
-
-    gulp.watch(['src/**/*.js','src/css/*.css',"src/**/*.html"],['build']);
+    // 监听文件变化
+    gulp.watch(["src/**/*.html",'src/css/*.css','src/**/*.js'],['build']);
     gulp.watch("dist/index.html").on("change",browserSync.reload);
 })
 gulp.task('moveHtml',function(){
@@ -68,64 +72,4 @@ gulp.task('moveHtml',function(){
         .pipe(rename({dirname: ''}))
         .pipe(gulp.dest('pages'))
 })
-
-/*gulp.task('inject', ['concatJs', 'concatCss','moveHtml'], function() {
-    gulp.src('./src/index.html')
-        .pipe(inject(gulp.src(['./js/main/*.js', './css/main/*.css'], {
-            read: false
-        }), {
-            relative: true
-        }))
-        .pipe(gulp.dest('./'))
-})*/
-gulp.task('inject-dev', ['concatJs-dev', 'concatCss-dev','moveHtml'], function() {
-    gulp.src('./src/index.html')
-        .pipe(inject(gulp.src(['./js/main/*.js', './css/main/*.css'], {
-            read: false
-        }), {
-            relative: true
-        }))
-        .pipe(gulp.dest('./'))
-        .pipe(reload({stream:true}))
-})
-
-
-
-gulp.task('watch', function() {
-    gulp.watch(['src/action/**/**/*.js','src/style/*.css'],['build'])
-})
-
-
-
-gulp.task('serve2', function() {
-
-  var options = {
-        target: 'http://dev.kankanyisheng.com', // target host
-        changeOrigin: true,               // needed for virtual hosted sites
-        pathRewrite: {
-            '^/api' : '',
-        },
-    };
-    var middleware = proxyMiddleware('/api', options);
-
-    browserSync.init({
-        server: {
-            baseDir: "./",
-            index: './index.html',
-			      middleware: middleware
-        }
-    });
-
-//  gulp.watch(['src/action/**/*.js','src/style/*.css','src/action/view/**/*.html'],['dev']);
-//  gulp.watch("./tpl/**/*.html").on("change", browserSync.reload);
-});
-
-
-
-gulp.task('dev',['clean'],function(){
-    gulp.start('inject-dev')
-})
-
-
-
 
