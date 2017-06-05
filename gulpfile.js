@@ -13,7 +13,7 @@ var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
 gulp.task("clean",function(){
-	 return gulp.src(['./dist/css',"./dist/js"])
+	 return gulp.src(['./dist/css',"./dist/js",'./dist/tpl'])
         .pipe(clean())
 })
 
@@ -37,15 +37,22 @@ gulp.task('buildCss', function() {
         .pipe(rev())
         .pipe(gulp.dest('./dist/css'))
 })
+//view 下的二级目录全部拷贝
+gulp.task("buildHtml",function(){
+	return gulp.src('./src/view/**/*.html')
+	 .pipe(rename({dirname: ''})).pipe(
+		gulp.dest('./dist/tpl')
+	)
+})
 
 //把编译好的文件注入到页面
-gulp.task("build",["clean","buildCss","buildJs"],function(){
+gulp.task("build",["clean","buildCss","buildJs","buildHtml"],function(){
 	var target=gulp.src('./src/index.html');
 	var sources = gulp.src(['./dist/css/*.css','./dist/js/*.js'], {read: false});
-	return target.pipe(inject(sources,{ralative:true}))
-	.pipe(
+	return target.pipe(inject(sources,{ralative:true})).pipe(
 		gulp.dest('./dist')
 	)
+	
 })
 //默认的就是构建服务
 gulp.task('default', ['build']);

@@ -27,11 +27,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider, $location
     $stateProvider.state('index', {
         abstract: true,
         url: '/index',
-        templateUrl: 'pages/index.html'
-
-    }).state('index.questions', {
-        url: '/questions',
-        templateUrl: 'pages/questions.html',
+        templateUrl: 'tpl/index.html',
+controller: 'indexCtrl'
+    }).state('addCase', {
+        url: '/addCase',
+        templateUrl: 'tpl/addCase.html',
         controller: 'indexCtrl'
     })
 })
